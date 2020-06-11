@@ -1,2 +1,2 @@
-# algorithmic contests
-just a bunch of templates for contests :)
+# templates
+just a bunch of templates (inspired by tourist) for contests :)
