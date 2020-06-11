@@ -4,7 +4,9 @@ public:
     vector<T> t;
     F f;
     SegmentTree() : n(), t(), f() {}
-
+    SegmentTree(const T arr[], int _n, F func) { build(arr, _n, func); }
+    SegmentTree(const vector<T> &v, F func) { build(v, func); }
+    
     void build(const T arr[], int _n, F func) {
         n = _n;
         f = move(func);
