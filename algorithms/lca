@@ -98,7 +98,7 @@ public:
     }
 
     int lca(int u, int v) {
-        if (st[u] < st[v]) swap(u, v);
+        if (st[u] > st[v]) swap(u, v);
         return t.query(st[u], st[v]);
     }
 };
