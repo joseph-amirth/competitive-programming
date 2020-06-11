@@ -1,0 +1,31 @@
+vector<int> euler_tour(int x = 1) {
+    vector<int> euler;
+    function<void(int, int, int)> dfs = [&] (int x, int p, int h) {
+        d[x] = h;
+        st[x] = euler.size();
+
+        euler.push_back(x);
+        for (int &i : g[x]) {
+            if (i == p) continue;
+            dfs(i, x, h + 1);
+            euler.push_back(x);
+        }
+    };
+    return euler;
+}
+
+class LCA {
+public:
+    SegmentTree<int> t;
+
+    explicit LCA (const vector<int>& euler) {
+        t.build(euler, [&](int u, int v) {
+            return (d[u] < d[v] ? u : v);
+        });
+    }
+
+    int lca(int u, int v) {
+        if (st[u] < st[v]) swap(u, v);
+        return t.query(st[u], st[v]);
+    }
+};
