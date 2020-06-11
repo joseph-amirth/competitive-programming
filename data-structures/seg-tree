@@ -1,0 +1,51 @@
+template <typename T, typename F = function<T(const T&, const T&)>> class SegmentTree {
+public:
+    int n;
+    vector<T> t;
+    F f;
+    explicit SegmentTree(const T arr[], int _n, F func) : n(_n), f(move(func)) {
+        t.resize(4 * n + 4);
+        build(arr, 1, 0, n - 1);
+    }
+    void build(const T arr[], int i, int l, int r) {
+        if (l == r) {
+            t[i] = arr[l];
+            return;
+        }
+
+        int mid = l + (r - l) / 2;
+        build(arr, i << 1, l, mid);
+        build(arr, i << 1 | 1, mid + 1, r);
+
+        t[i] = f(t[i << 1], t[i << 1 | 1]);
+    }
+
+    void update(int idx, int val) {
+        function<void(int, int, int, int, int)> update = [&](int idx, int val, int i, int l, int r) {
+            if (l == r) {
+                t[i] = val;
+                return;
+            }
+            int mid = l + (r - l) / 2;
+            if (idx <= mid)
+                update(idx, val, i << 1, l, mid);
+            else update(idx, val, i << 1 | 1, mid + 1, r);
+
+            t[i] = f(t[i << 1], t[i << 1 | 1]);
+        };
+        update(idx, val, 1, 0, n - 1);
+    }
+
+    T query(int l, int r) {
+        function<T(int, int, int, int, int)> query = [&](int ql, int qr, int i, int l, int r) {
+            if (ql > r or qr < l)
+                return T();
+            if (l >= ql and r <= qr)
+                return t[i];
+            int mid = l + (r - l) / 2;
+            T x = query(ql, qr, i << 1, l, mid), y = query(ql, qr, i << 1 | 1, mid + 1, r);
+            return f(x, y);
+        };
+        return query(l, r, 1, 0, n - 1);
+    }
+};
