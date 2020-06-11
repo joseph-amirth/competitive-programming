@@ -96,6 +96,7 @@ public:
                 euler.push_back(x);
             }
         };
+        dfs(1, 0, 0);
         t.build(euler, [&](int u, int v) {
             return (d[u] < d[v] ? u : v);
         });
