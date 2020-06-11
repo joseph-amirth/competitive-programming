@@ -5,7 +5,7 @@ public:
     F f;
     SegmentTree() : n(), t(), f() {}
 
-    void build(const T *arr, int _n, F func) {
+    void build(const T arr[], int _n, F func) {
         n = _n;
         f = move(func);
         t.resize(4 * n + 4);
