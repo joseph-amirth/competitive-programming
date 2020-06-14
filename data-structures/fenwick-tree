@@ -3,16 +3,17 @@ public:
     int n;
     vector<T> bit;
     F f;
-    explicit FenwickTree(int _n, F func) : n(_n), f(move(func)) {
-        bit.resize(n + 1);
-    }
+
+    FenwickTree(): n(), bit(), f() {}
+    explicit FenwickTree(int _n, F func = plus<T>()): n(_n + 1), bit(_n + 1, 0), f(move(func)) {}
+
     void add(int i, int val) {
-        while (i <= n) {
+        while (i < n) {
             bit[i] = f(bit[i], val);
             i += i & -i;
         }
     }
-    T sum(int i) {
+    T query(int i) {
         int ans = 0;
         while (i > 0) {
             ans = f(ans, bit[i]);
