@@ -5,8 +5,7 @@ public:
     F f;
     SegmentTree() : n(), t(), f() {}
 
-    template <typename U>
-    void build(const U arr, int _n, F func = plus<T>()) {
+    template <typename U> void build(const U& arr, int _n, F func = plus<T>()) {
         n = _n;
         f = move(func);
         t.resize(4 * n + 4);
@@ -26,8 +25,7 @@ public:
         build(1, 0, n - 1);
     }
 
-    template <typename U>
-    void update(int idx, U val) {
+    template <typename U> void update(int idx, U val) {
         function<void(int, int, int)> update = [&](int i, int l, int r) {
             if (l == r) {
                 t[i] = T(val);
@@ -43,8 +41,7 @@ public:
         update(1, 0, n - 1);
     }
 
-    template <typename U>
-    void update(int ql, int qr, U val) {
+    template <typename U> void update(int ql, int qr, U val) {
         function<void(int, int, int)> update = [&](int i, int l, int r) {
             if (ql > r or qr < l)
                 return;
