@@ -4,75 +4,73 @@ public:
     vector<T> t;
     F f;
     SegmentTree() : n(), t(), f() {}
-    SegmentTree(const T arr[], int _n, F func = plus<T>()) { build(arr, _n, func); }
-    SegmentTree(const vector<T> &v, F func = plus<T>()) { build(v, func); }
 
-    void build(const T arr[], int _n, F func) {
+    template <typename U>
+    void build(const U arr, int _n, F func = plus<T>()) {
         n = _n;
         f = move(func);
         t.resize(4 * n + 4);
 
-        function<void(const T[], int, int, int)> build = [&] (const T arr[], int i, int l, int r) {
+        function<void(int, int, int)> build = [&] (int i, int l, int r) {
             if (l == r) {
-                t[i] = arr[l];
+                t[i] = T(arr[l]);
                 return;
             }
 
             int mid = l + (r - l) / 2;
-            build(arr, i << 1, l, mid);
-            build(arr, i << 1 | 1, mid + 1, r);
+            build(i << 1, l, mid);
+            build(i << 1 | 1, mid + 1, r);
 
             t[i] = f(t[i << 1], t[i << 1 | 1]);
         };
-        build(arr, 1, 0, n - 1);
+        build(1, 0, n - 1);
     }
 
-    void build(const vector<T>& v, F func) {
-        n = v.size();
-        f = move(func);
-        t.resize(4 * n + 4);
-
-        function<void(const vector<T>&, int, int, int)> build = [&] (const vector<T>& v, int i, int l, int r) {
+    template <typename U>
+    void update(int idx, U val) {
+        function<void(int, int, int)> update = [&](int i, int l, int r) {
             if (l == r) {
-                t[i] = v[l];
-                return;
-            }
-
-            int mid = l + (r - l) / 2;
-            build(v, i << 1, l, mid);
-            build(v, i << 1 | 1, mid + 1, r);
-
-            t[i] = f(t[i << 1], t[i << 1 | 1]);
-        };
-        build(v, 1, 0, n - 1);
-    }
-
-    void update(int idx, int val) {
-        function<void(int, int, int, int, int)> update = [&](int idx, int val, int i, int l, int r) {
-            if (l == r) {
-                t[i] = val;
+                t[i] = T(val);
                 return;
             }
             int mid = l + (r - l) / 2;
             if (idx <= mid)
-                update(idx, val, i << 1, l, mid);
-            else update(idx, val, i << 1 | 1, mid + 1, r);
+                update(i << 1, l, mid);
+            else update(i << 1 | 1, mid + 1, r);
 
             t[i] = f(t[i << 1], t[i << 1 | 1]);
         };
-        update(idx, val, 1, 0, n - 1);
+        update(1, 0, n - 1);
     }
 
-    T query(int l, int r) {
-        function<T(int, int, int, int, int)> query = [&](int ql, int qr, int i, int l, int r) {
+    template <typename U>
+    void update(int ql, int qr, U val) {
+        function<void(int, int, int)> update = [&](int i, int l, int r) {
+            if (ql > r or qr < l)
+                return;
+            if (l == r) {
+                t[i] = T(val);
+                return;
+            }
+            int mid = l + (r - l) / 2;
+            update(i << 1, l, mid);
+            update(i << 1 | 1, mid + 1, r);
+
+            t[i] = f(t[i << 1], t[i << 1 | 1]);
+        };
+        update(1, 0, n - 1);
+    }
+
+    T query(int ql, int qr) {
+        function<T(int, int, int)> query = [&](int i, int l, int r) {
             if (ql > r or qr < l)
                 return T();
             if (l >= ql and r <= qr)
                 return t[i];
             int mid = l + (r - l) / 2;
-            T x = query(ql, qr, i << 1, l, mid), y = query(ql, qr, i << 1 | 1, mid + 1, r);
+            T x = query(i << 1, l, mid), y = query(i << 1 | 1, mid + 1, r);
             return f(x, y);
         };
-        return query(l, r, 1, 0, n - 1);
+        return query(1, 0, n - 1);
     }
 };
