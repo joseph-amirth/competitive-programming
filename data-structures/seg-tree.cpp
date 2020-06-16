@@ -61,7 +61,7 @@ public:
     T query(int ql, int qr) {
         function<T(int, int, int)> query = [&](int i, int l, int r) {
             if (ql > r or qr < l)
-                return T();
+                return T(); //identity element of f
             if (l >= ql and r <= qr)
                 return t[i];
             int mid = l + (r - l) / 2;
