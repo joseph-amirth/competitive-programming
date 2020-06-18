@@ -1,2 +1,2 @@
 # templates
-just a bunch of templates (inspired by tourist) for contests :)
+just a bunch of templates for contests :)
