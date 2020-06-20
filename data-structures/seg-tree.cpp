@@ -1,12 +1,13 @@
 template <typename T, typename F = function<T(const T&, const T&)>> class SegmentTree {
 public:
     int n;
+    T e;
     vector<T> t;
     F f;
-    SegmentTree() : n(), t(), f() {}
+    SegmentTree() : n(), t(), f(), e() {}
 
-    template <typename U> void build(const U& arr, int _n, F func = plus<T>()) {
-        n = _n;
+    template <typename U> void build(const U& arr, int _n, T _e = T(), F func = plus<T>()) {
+        e = _e; n = _n;
         f = move(func);
         t.resize(4 * n + 4);
 
@@ -61,7 +62,7 @@ public:
     T query(int ql, int qr) {
         function<T(int, int, int)> query = [&](int i, int l, int r) {
             if (ql > r or qr < l)
-                return T(); //identity element of f
+                return e;
             if (l >= ql and r <= qr)
                 return t[i];
             int mid = l + (r - l) / 2;
