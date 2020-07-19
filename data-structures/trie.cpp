@@ -1,27 +1,26 @@
+struct Node {
+    Node* arr[26];
+    bool isEnd;
+    Node() : arr{}, isEnd() {}
+};
+
 class Trie {
 public:
-    struct TrieNode {
-        TrieNode* arr[26];
-        bool isEnd;
-        TrieNode() : arr{}, isEnd() {}
-    };
-    TrieNode *root;
-    Trie() {
-        root = new TrieNode();
-    }
+    Node *root;
+    Trie(): root(new Node()) {}
 
     void insert (const string& s) const {
-        TrieNode *curNode = root;
+        Node *curNode = root;
         for (char ch : s) {
             if (!curNode->arr[ch - 'a'])
-                curNode->arr[ch - 'a'] = new TrieNode();
+                curNode->arr[ch - 'a'] = new Node();
             curNode = curNode->arr[ch - 'a'];
         }
         curNode->isEnd = true;
     }
 
     bool search(const string& s) const {
-        TrieNode *curNode = root;
+        Node *curNode = root;
         for (char ch : s) {
             if (!curNode->arr[ch - 'a'])
                 return false;
