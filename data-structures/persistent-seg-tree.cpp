@@ -1,7 +1,14 @@
-template <typename T, T e = T()> class SegmentTree {
-public:
-    #define F function<T(const T&, const T&)>
+struct combine {
+    static int e;
+    int operator()(const int& a, const int & b) const {
+        return a + b;
+    }
+};
 
+int combine::e = 0;
+
+template <typename T, typename F> class SegmentTree {
+public:
     struct node {
         T val;
         node *l, *r;
@@ -10,16 +17,14 @@ public:
     };
 
     int n;
-    F f;
     vector<node*> root;
     node* ver;
 
-    SegmentTree(): root(), n(), ver(), f() {}
+    SegmentTree(): root(), n(), ver() {}
 
-    template <typename U> void build(const U& arr, int _n, F func = plus<T>()) {
-        n = _n;
-        f = func;
-        root = {build(0, n - 1)};
+    template <typename U> void build(const U& arr, int m) {
+        n = m;
+        root.push_back(build(arr, 0, n - 1));
         ver = root.back();
     }
 
@@ -32,7 +37,7 @@ public:
         int mid = l + (r - l) / 2;
         node* temp1 = build(arr, l, mid);
         node* temp2 = build(arr, mid + 1, r);
-        return new node(f(temp1->val, temp2->val), temp1, temp2);
+        return new node(F()(temp1->val, temp2->val), temp1, temp2);
     }
 
     void update(int idx, int val) {
@@ -47,10 +52,10 @@ public:
         int mid = l + (r - l) / 2;
         if (idx <= mid) {
             node* temp = update(idx, val, v->l, l, mid);
-            return new node(f(temp->val, v->r->val), temp, v->r);
+            return new node(F()(temp->val, v->r->val), temp, v->r);
         } else {
             node *temp = update(idx, val, v->r, mid + 1, r);
-            return new node(f(v->l->val, temp->val), v->l, temp);
+            return new node(F()(v->l->val, temp->val), v->l, temp);
         }
     }
 
@@ -60,11 +65,11 @@ public:
 
     T query(int ql, int qr, node* v, int l, int r) {
         if (ql > r or l > qr)
-            return e;
+            return F::e;
         if (ql <= l and r <= qr)
             return v->val;
 
         int mid = l + (r - l) / 2;
-        return f(query(ql, qr, v->l, l, mid), query(ql, qr, v->r, mid + 1, r));
+        return F()(query(ql, qr, v->l, l, mid), query(ql, qr, v->r, mid + 1, r));
     }
 };
