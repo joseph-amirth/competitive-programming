@@ -1,2 +1,1 @@
-#cp templates
-just a bunch of templates for contests :)
+just a bunch of templates for programming contests :)
