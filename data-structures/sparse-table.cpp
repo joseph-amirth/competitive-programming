@@ -1,5 +1,7 @@
-template <typename T, bool I = true, typename F = function<T(const T&, const T&)>> class SparseTable {
+template <typename T, bool I = true> class SparseTable {
 public:
+    #define F function<T(const T&, const T&)>
+
     int n;
     vector<vector<T>> mat;
     vector<int> log;
@@ -37,7 +39,7 @@ public:
             return f(mat[j][l], mat[j][r + 1 - (1 << j)]);
         }
 
-        T ans = 0; //identity element of f
+        T ans = 0;
         for (int j = mat.size() - 1; j >= 0; j--) {
             if ((1 << j) <= r - l + 1) {
                 ans = f(ans, mat[j][l]);
