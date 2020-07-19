@@ -1,15 +1,20 @@
-template <typename T, T e = T()> class SegmentTree {
-public:
-    #define F function<T(const T&, const T&)>
+struct combine {
+    static int e;
+    int operator()(const int& a, const int & b) const {
+        return a + b;
+    }
+};
 
+int combine::e = 0;
+
+template <typename T, typename F> class SegmentTree {
+public:
     int n;
     vector<T> t, lazy;
-    F f;
-    SegmentTree() : n(), t(), f(), lazy() {}
+    SegmentTree() : n(), t(), lazy() {}
 
-    template <typename U> void build(const U& arr, int _n, F func = plus<T>()) {
-        n = _n;
-        f = move(func);
+    template <typename U> void build(const U& arr, int m) {
+        n = m;
         t.resize(4 * n + 4);
         lazy.resize(4 * n + 4);
         build(arr, 1, 0, n - 1);
@@ -25,7 +30,7 @@ public:
         build(arr, i << 1, l, mid);
         build(arr, i << 1 | 1, mid + 1, r);
 
-        t[i] = f(t[i << 1], t[i << 1 | 1]);
+        t[i] = F()(t[i << 1], t[i << 1 | 1]);
     }
 
     void push (int x, int l, int r) {
@@ -47,7 +52,7 @@ public:
             update(idx, val, i << 1, l, mid);
         else update(idx, val, i << 1 | 1, mid + 1, r);
 
-        t[i] = f(t[i << 1], t[i << 1 | 1]);
+        t[i] = F()(t[i << 1], t[i << 1 | 1]);
     }
 
     template <typename U> void update(int ql, int qr, U val) {
@@ -66,7 +71,7 @@ public:
         update(ql, qr, val, i << 1, l, mid);
         update(ql, qr, val, i << 1 | 1, mid + 1, r);
 
-        t[i] = f(t[i << 1], t[i << 1 | 1]);
+        t[i] = F()(t[i << 1], t[i << 1 | 1]);
     }
 
     T query(int ql, int qr) {
@@ -75,12 +80,12 @@ public:
 
     T query(int ql, int qr, int i, int l, int r) {
         if (ql > r or qr < l)
-            return e;
+            return F::e;
         if (l >= ql and r <= qr)
             return t[i];
         push(i, l, r);
         int mid = l + (r - l) / 2;
         T x = query(ql, qr, i << 1, l, mid), y = query(ql, qr, i << 1 | 1, mid + 1, r);
-        return f(x, y);
+        return F()(x, y);
     }
 };
