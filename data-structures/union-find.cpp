@@ -1,10 +1,12 @@
 class UnionFind {
 public:
+    int n;
     vector<int> p, r;
-    explicit UnionFind(int n = N) {
-        p.resize(n + 1);
+    explicit UnionFind(int n = 0): n(n), p(n + 1), r(n + 1) {
         iota(all(p), 0);
-        r.resize(n + 1, 1);
+    }
+    int size() const {
+        return n;
     }
     int find(int x) {
         if (p[x] != x)
@@ -24,6 +26,7 @@ public:
                 p[l2] = l1;
                 r[l1]++;
             }
+            n--;
         }
     }
 };
