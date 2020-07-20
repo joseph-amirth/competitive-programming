@@ -9,24 +9,23 @@ public:
         return n;
     }
     int find(int x) {
-        if (p[x] != x)
-            p[x] = find(p[x]);
-        return p[x];
+        return x == p[x] ? x : p[x] = find(p[x]);
     }
-    void union_find(int x, int y) {
+    bool merge(int x, int y) {
         int l1 = find(x);
         int l2 = find(y);
 
-        if (l1 != l2) {
-            if (r[l1] > r[l2])
-                p[l2] = l1;
-            else if (r[l1] < r[l2])
-                p[l1] = l2;
-            else {
-                p[l2] = l1;
-                r[l1]++;
-            }
-            n--;
+        if (l1 == l2)
+            return false;
+        if (r[l1] > r[l2])
+            p[l2] = l1;
+        else if (r[l1] < r[l2])
+            p[l1] = l2;
+        else {
+            p[l2] = l1;
+            r[l1]++;
         }
+        n--;
+        return true;
     }
 };
