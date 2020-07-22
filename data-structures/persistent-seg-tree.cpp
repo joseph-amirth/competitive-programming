@@ -1,14 +1,7 @@
-struct combine {
-    static int e;
-    int operator()(const int& a, const int & b) const {
-        return a + b;
-    }
-};
-
-int combine::e = 0;
-
-template <typename T, typename F> class SegmentTree {
+template <typename T> class SegmentTree {
 public:
+    #define F function<T(const T&, const T&)>
+
     struct node {
         T val;
         node *l, *r;
@@ -19,43 +12,46 @@ public:
     int n;
     vector<node*> root;
     node* ver;
+    T e;
+    F f;
+    SegmentTree(): root(), n(), ver(), e(), f() {}
 
-    SegmentTree(): root(), n(), ver() {}
-
-    template <typename U> void build(const U& arr, int m) {
-        n = m;
+    template <typename U> void build(const U& arr, int _n, T _e, F func) {
+        n = _n;
+        e = _e;
+        f = func;
         root.push_back(build(arr, 0, n - 1));
         ver = root.back();
     }
 
     template <typename U> node* build(const U& arr, int l, int r) {
         if (l == r) {
-            node* temp = new node(arr[l]);
+            node* temp = new node(T(arr[l]));
             return temp;
         }
 
-        int mid = l + (r - l) / 2;
+        int mid = (l + r) >> 1;
         node* temp1 = build(arr, l, mid);
         node* temp2 = build(arr, mid + 1, r);
-        return new node(F()(temp1->val, temp2->val), temp1, temp2);
+        return new node(f(temp1->val, temp2->val), temp1, temp2);
     }
 
-    void update(int idx, int val) {
+    template <typename U> void update(int idx, U val) {
         root.push_back(update(idx, val, ver, 0, n - 1));
         ver = root.back();
     }
 
-    node* update(int idx, int val, node* v, int l, int r) {
+    template <typename U> node* update(int idx, U val, node* v, int l, int r) {
         if (l == r)
-            return new node(val);
+            return new node(T(val));
 
-        int mid = l + (r - l) / 2;
+        int mid = (l + r) >> 1;
         if (idx <= mid) {
             node* temp = update(idx, val, v->l, l, mid);
-            return new node(F()(temp->val, v->r->val), temp, v->r);
+            return new node(f(temp->val, v->r->val), temp, v->r);
         } else {
             node *temp = update(idx, val, v->r, mid + 1, r);
-            return new node(F()(v->l->val, temp->val), v->l, temp);
+            return new node(f(v->l->val, temp->val), v->l, temp);
         }
     }
 
@@ -65,11 +61,11 @@ public:
 
     T query(int ql, int qr, node* v, int l, int r) {
         if (ql > r or l > qr)
-            return F::e;
+            return e;
         if (ql <= l and r <= qr)
             return v->val;
 
-        int mid = l + (r - l) / 2;
-        return F()(query(ql, qr, v->l, l, mid), query(ql, qr, v->r, mid + 1, r));
+        int mid = (l + r) >> 1;
+        return f(query(ql, qr, v->l, l, mid), query(ql, qr, v->r, mid + 1, r));
     }
 };
