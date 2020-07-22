@@ -44,7 +44,7 @@ public:
         T ans = e;
         for (int j = mat.size() - 1; j >= 0; j--) {
             if ((1 << j) <= r - l + 1) {
-                ans = F()(ans, mat[j][l]);
+                ans = f(ans, mat[j][l]);
                 l += (1 << j);
             }
         }
