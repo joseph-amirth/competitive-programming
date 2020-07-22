@@ -1,21 +1,18 @@
-struct sum { //combiner function
-    static int e; //identity element
-    int operator()(const int& a, const int& b) const {
-        return a + b; //operation
-    }
-};
-
-int sum::e = 0;
-
-template <typename T, typename F, bool I = true> class SparseTable {
+template <typename T, bool I = true> class SparseTable {
 public:
+    #define F function<T(const T&, const T&)>
+
     int n;
     vector<vector<T>> mat;
     vector<int> log;
+    T e;
+    F f;
+    SparseTable(): n(), mat(), log(), e(), f() {}
 
-    SparseTable(): n(), mat(), log() {}
-    template <typename U> void build(const U& arr, int m) {
-        n = m;
+    template <typename U> void build(const U& arr, int _n, T _e, F func) {
+        n = _n;
+        e = _e;
+        f = func;
         mat.resize((int)log2(n) + 1);
 
         if (I) {
@@ -33,7 +30,7 @@ public:
         for (int j = 1; j < mat.size(); j++) {
             mat[j].resize(n - j);
             for (int i = 0; i + (1 << j) <= n; i++) {
-                mat[j][i] = F()(mat[j - 1][i], mat[j - 1][i + (1 << (j - 1))]);
+                mat[j][i] = f(mat[j - 1][i], mat[j - 1][i + (1 << (j - 1))]);
             }
         }
     }
@@ -41,10 +38,10 @@ public:
     T query(int l, int r) {
         if (I) {
             int j = log[r - l + 1];
-            return F()(mat[j][l], mat[j][r + 1 - (1 << j)]);
+            return f(mat[j][l], mat[j][r + 1 - (1 << j)]);
         }
 
-        T ans = F::e;
+        T ans = e;
         for (int j = mat.size() - 1; j >= 0; j--) {
             if ((1 << j) <= r - l + 1) {
                 ans = F()(ans, mat[j][l]);
