@@ -1,21 +1,18 @@
-struct combine {
-    static int e;
-    int operator()(const int& a, const int & b) const {
-        return a + b;
-    }
-};
-
-int combine::e = 0;
-
-template <typename T, typename F> class SegmentTree {
+template <typename T> class SegmentTree {
 public:
-    int n;
-    vector<T> t;
-    SegmentTree() : n(), t() {}
+    #define F function<T(const T&, const T&)>
 
-    template <typename U> void build(const U& arr, int m) {
-        n = m;
+    int n;
+    vector<T> t; 
+    T e;
+    F f;
+    SegmentTree() : n(), t(), e(), f() {}
+
+    template <typename U> void build(const U& arr, int _n, T _e = T(), F func = plus<>()) {
+        n = _n;
         t.resize(4 * n + 4);
+        e = _e;
+        f = func;
         build(arr, 1, 0, n - 1);
     }
 
@@ -25,11 +22,11 @@ public:
             return;
         }
 
-        int mid = l + (r - l) / 2;
+        int mid = (l + r) >> 1;
         build(arr, i << 1, l, mid);
         build(arr, i << 1 | 1, mid + 1, r);
 
-        t[i] = F()(t[i << 1], t[i << 1 | 1]);
+        t[i] = f(t[i << 1], t[i << 1 | 1]);
     }
 
     template <typename U> void update(int idx, U val) {
@@ -41,12 +38,12 @@ public:
             t[i] = T(val);
             return;
         }
-        int mid = l + (r - l) / 2;
+        int mid = (l + r) >> 1;
         if (idx <= mid)
             update(idx, val, i << 1, l, mid);
         else update(idx, val, i << 1 | 1, mid + 1, r);
 
-        t[i] = F()(t[i << 1], t[i << 1 | 1]);
+        t[i] = f(t[i << 1], t[i << 1 | 1]);
     }
 
     T query(int ql, int qr) {
@@ -55,11 +52,11 @@ public:
 
     T query(int ql, int qr, int i, int l, int r) {
         if (ql > r or qr < l)
-            return F::e;
+            return e;
         if (l >= ql and r <= qr)
             return t[i];
-        int mid = l + (r - l) / 2;
+        int mid = (l + r) >> 1;
         T x = query(ql, qr, i << 1, l, mid), y = query(ql, qr, i << 1 | 1, mid + 1, r);
-        return F()(x, y);
+        return f(x, y);
     }
 };
