@@ -1,12 +1,12 @@
-vector<int> constructLps(const string &pat) {
-    int m = pat.length();
-    vector<int> lps(m);
+int lps[N];
+void constructLps(const string &t) {
+    int m = t.length();
 
     int len = 0, i = 1;
     lps[0] = 0;
 
     while (i < m) {
-        if (pat[i] == pat[len]) {
+        if (t[i] == t[len]) {
             len += 1;
             lps[i] = len;
             i += 1;
@@ -19,14 +19,13 @@ vector<int> constructLps(const string &pat) {
             i += 1;
         }
     }
-    return lps;
 }
 
 vector<int> kmp(const string &s, const string &t) {
-    int n = s.length(), m = t.length();
+    constructLps(t);
+    vector<int> occur;
 
-    vector<int> lps = constructLps(t), occur;
-    int i = 0, j = 0;
+    int n = s.length(), m = t.length(), i = 0, j = 0;
 
     while (i < n) {
         if (s[i] == t[j]) {
