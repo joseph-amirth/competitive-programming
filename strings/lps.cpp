@@ -1,13 +1,12 @@
 int lps[N];
-
-void constructLps(const string &pat) {
-    int m = pat.length();
+void constructLps(const string &t) {
+    int m = t.length();
 
     int len = 0, i = 1;
     lps[0] = 0;
 
     while (i < m) {
-        if (pat[i] == pat[len]) {
+        if (t[i] == t[len]) {
             len += 1;
             lps[i] = len;
             i += 1;
