@@ -24,9 +24,4 @@ void Dijkstra(int s = 1) {
             }
         }
     }
-}
-
-void nDijkstra() { //apsp
-    for (int i = 1; i <= n; i++)
-        dijkstra(i);
-}
+} //loop from 1 to n and call dijkstra for each to get apsp
