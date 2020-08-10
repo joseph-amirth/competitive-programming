@@ -1,5 +1,4 @@
 struct Fraction {
-    struct Fraction {
     ll num, dem;
     explicit Fraction(ll num = 0, ll dem = 1) {
         if (dem < 0) {
@@ -47,5 +46,4 @@ struct Fraction {
     bool operator> (const Fraction& rhs) const { return rhs < *this; }
     bool operator<=(const Fraction& rhs) const { return !(*this > rhs);}
     bool operator>=(const Fraction& rhs) const { return !(*this < rhs); }
-};
 };
