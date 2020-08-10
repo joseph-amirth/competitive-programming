@@ -1,4 +1,4 @@
-struct Fraction { //not fully functional (arithmetic operations haven't been implemented)
+struct Fraction {
     struct Fraction {
     ll num, dem;
     explicit Fraction(ll num = 0, ll dem = 1) {
