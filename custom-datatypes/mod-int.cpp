@@ -1,4 +1,4 @@
-template <const int M> struct ModInt {
+template <int M> struct ModInt {
     int val;
     ModInt(ll x = 0): val((x % M + M) % M) {}
 
@@ -13,14 +13,14 @@ template <const int M> struct ModInt {
     }
 
     ModInt inverse() const { return pow(M - 2); }
-    ModInt operator+ (const ModInt<M>& m) { return (val + m.val) % M; }
-    ModInt operator- (const ModInt<M>& m) { return ((val - m.val) % M + M) % M; }
-    ModInt operator* (const ModInt<M>& m) { return val * (ll) m.val % M; }
-    ModInt operator/ (const ModInt<M>& m) { return *this * m.inverse(); }
-    ModInt operator+=(const ModInt<M>& m) { return *this = *this + m; }
-    ModInt operator-=(const ModInt<M>& m) { return *this = *this - m; }
-    ModInt operator*=(const ModInt<M>& m) { return *this = *this * m; }
-    ModInt operator/=(const ModInt<M>& m) { return *this = *this / m; }
+    ModInt operator+ (const ModInt& m) { return (val + m.val) % M; }
+    ModInt operator- (const ModInt& m) { return ((val - m.val) % M + M) % M; }
+    ModInt operator* (const ModInt& m) { return val * (ll) m.val % M; }
+    ModInt operator/ (const ModInt& m) { return *this * m.inverse(); }
+    ModInt operator+=(const ModInt& m) { return *this = *this + m; }
+    ModInt operator-=(const ModInt& m) { return *this = *this - m; }
+    ModInt operator*=(const ModInt& m) { return *this = *this * m; }
+    ModInt operator/=(const ModInt& m) { return *this = *this / m; }
 
     friend ostream &operator<<(ostream &os, const ModInt &m) {
         os << m.val;
