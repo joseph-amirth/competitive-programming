@@ -17,10 +17,10 @@ void Dijkstra(int s = 1) {
             continue;
         visited[u] = true;
 
-        for (pair<int, int> &i : g[u]) {
-            if (d[i.first] > d[u] + i.second) {
-                d[i.first] = d[u] + i.second;
-                q.push({d[i.first], i.first});
+        for (auto &[v, w] : g[u]) {
+            if (d[v] > d[u] + w) {
+                d[v] = d[u] + w;
+                q.push({d[v], v});
             }
         }
     }
