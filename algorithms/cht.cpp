@@ -1,6 +1,6 @@
 using point = pair<int, int>;
 
-class ConvexHullTrick {
+class ConvexHullTrick { //not dynamic, addition is possible only in increasing order of slope (in case of equal slopes, increasing order of y-intercepts)
 public:
     vector<point> lines;
 
