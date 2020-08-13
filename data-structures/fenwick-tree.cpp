@@ -1,13 +1,13 @@
 template <typename T> class FenwickTree {
 public:
-    #define F function<T(const T&, const T&)>
+    using F = function<T(const T&, const T&)>;
 
     int n;
     vector<T> bit;
     F f;
 
     FenwickTree(): n(), bit(), f() {}
-    explicit FenwickTree(int n, F func = plus<T>()): n(n), bit(n + 1, 0), f(func) {}
+    explicit FenwickTree(int n, F f = plus<T>()): n(n), bit(n + 1, 0), f(f) {}
 
     void add(int i, int val) {
         while (i <= n) {
