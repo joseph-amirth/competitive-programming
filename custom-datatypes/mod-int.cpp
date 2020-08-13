@@ -14,7 +14,7 @@ template <int M> struct ModInt {
 
     ModInt inverse() const { return pow(M - 2); }
     ModInt operator+ (const ModInt& m) { return (val + m.val) % M; }
-    ModInt operator- (const ModInt& m) { return ((val - m.val) % M + M) % M; }
+    ModInt operator- (const ModInt& m) { return (val - m.val + M) % M; }
     ModInt operator* (const ModInt& m) { return val * (ll) m.val % M; }
     ModInt operator/ (const ModInt& m) { return *this * m.inverse(); }
     ModInt operator+=(const ModInt& m) { return *this = *this + m; }
