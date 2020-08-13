@@ -1,6 +1,6 @@
 template <typename T> class SparseTable {
 public:
-    #define F function<T(const T&, const T&)>
+    using F = function<T(const T&, const T&)>;
 
     int n;
     vector<vector<T>> mat;
@@ -14,7 +14,7 @@ public:
         mat[0].resize(n);
         for (int i = 0; i < n; i++)
             mat[0][i] = T(arr[i]);
-        
+
         for (int j = 1; j < mat.size(); j++) {
             mat[j].resize(n - (1 << j) + 1);
             for (int i = 0; i + (1 << j) <= n; i++) {
