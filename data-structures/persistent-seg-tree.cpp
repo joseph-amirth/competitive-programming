@@ -1,6 +1,6 @@
 template <typename T> class SegmentTree {
 public:
-    #define F function<T(const T&, const T&)>
+    using F = function<T(const T&, const T&)>;
 
     struct node {
         T val;
@@ -16,10 +16,10 @@ public:
     F f;
     SegmentTree(): root(), n(), ver(), e(), f() {}
 
-    template <typename U> void build(const U& arr, int _n, T _e, F func) {
+    template <typename U> void build(const U& arr, int _n, T _e, F _f) {
         n = _n;
         e = _e;
-        f = func;
+        f = _f;
         root.push_back(build(arr, 0, n - 1));
         ver = root.back();
     }
