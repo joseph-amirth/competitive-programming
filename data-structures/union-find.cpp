@@ -2,7 +2,9 @@ class UnionFind {
 public:
     int n;
     vector<int> p, r;
-    explicit UnionFind(int n = 0): n(n), p(n + 1), r(n + 1) {
+
+    UnionFind(): n(), p(), r() {}
+    UnionFind(int n): n(n), p(n + 1), r(n + 1) {
         iota(all(p), 0);
     }
     int size() const {
