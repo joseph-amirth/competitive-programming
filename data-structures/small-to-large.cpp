@@ -4,7 +4,8 @@ public:
     vector<int> p;
     vector<vector<int>> cmps;
 
-    explicit UnionFind(int n = 0): n(n), p(n + 1), cmps(n + 1) {
+    UnionFind(): n(), p(), cmps() {}
+    UnionFind(int n): n(n), p(n + 1), cmps(n + 1) {
         iota(all(p), 0);
         for (int i = 1; i <= n; i++) cmps[i] = {i};
     }
