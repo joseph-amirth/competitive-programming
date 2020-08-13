@@ -1,6 +1,6 @@
 template <typename T> class SegmentTree {
 public:
-    #define F function<T(const T&, const T&)>
+    using F = function<T(const T&, const T&)>;
 
     int n;
     vector<T> t;
@@ -9,12 +9,12 @@ public:
     F f;
     SegmentTree() : n(), t(), lazy(), e(), f() {}
 
-    template <typename U> void build(const U& arr, int _n, T _e = T(), F func = plus<>()) {
+    template <typename U> void build(const U& arr, int _n, T _e, F _f) {
         n = _n;
         t.resize(4 * n + 4);
         lazy.resize(4 * n + 4);
         e = _e;
-        f = func;
+        f = _f;
         build(arr, 1, 0, n - 1);
     }
 
@@ -79,7 +79,7 @@ public:
     T query(int ql, int qr, int i, int l, int r) {
         if (ql > r or qr < l)
             return e;
-        if (l >= ql and r <= qr)
+        if (ql <= l and r <= qr)
             return t[i];
         push(i, l, r);
         int mid = (l + r) >> 1;
