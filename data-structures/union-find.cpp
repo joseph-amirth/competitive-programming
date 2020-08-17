@@ -5,7 +5,7 @@ public:
 
     UnionFind(): n(), p(), r() {}
     UnionFind(int n): n(n), p(n + 1), r(n + 1) {
-        iota(all(p), 0);
+        iota(p.begin(), p.end(), 0);
     }
     int size() const {
         return n;
