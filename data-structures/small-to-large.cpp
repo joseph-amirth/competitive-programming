@@ -1,4 +1,4 @@
-class UnionFind { //union find but with small to large merging
+class UnionFind {
 public:
     int n;
     vector<int> p;
@@ -6,7 +6,7 @@ public:
 
     UnionFind(): n(), p(), cmps() {}
     UnionFind(int n): n(n), p(n + 1), cmps(n + 1) {
-        iota(all(p), 0);
+        iota(p.begin(), p.end(), 0);
         for (int i = 1; i <= n; i++) cmps[i] = {i};
     }
     int size() const {
