@@ -22,7 +22,7 @@ template <int M> struct ModInt {
     ModInt operator*=(const ModInt& m) { return *this = *this * m; }
     ModInt operator/=(const ModInt& m) { return *this = *this / m; }
 
-    friend ostream &operator<<(ostream &os, const ModInt &m) {
+    friend ostream& operator<<(ostream& os, const ModInt& m) {
         os << m.val;
         return os;
     }
