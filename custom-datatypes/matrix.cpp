@@ -1,13 +1,13 @@
 template <typename T> class matrix {
 public:
     int n, m;
-    vector<vector<T>> v;
+    vector<vector<T>> mat;
 
-    matrix(): n(), m(), v() {}
-    matrix (int n, int m): n(n), m(m), v(n, vector<T>(m)) {}
+    matrix(): n(), m(), mat() {}
+    matrix (int n, int m): n(n), m(m), mat(n, vector<T>(m)) {}
 
     vector<T>& operator[](const int& idx) {
-        return v[idx];
+        return mat[idx];
     }
 
     matrix operator*(matrix& rhs) {
@@ -18,7 +18,7 @@ public:
             for (int j = 0; j < rhs.m; j++) {
                 res[i][j] = 0;
                 for (int k = 0; k < m; k++) {
-                    res[i][j] += v[i][k] * rhs[k][j];
+                    res[i][j] += mat[i][k] * rhs[k][j];
                 }
             }
         }
