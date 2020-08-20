@@ -26,7 +26,8 @@ public:
         for (int i : cmps[s2]) {
             cmps[s1].push_back(i);
             p[i] = s1;
-        } cmps[s2].clear();
+        } 
+        cmps[s2].clear();
 
         n--;
         return true;
