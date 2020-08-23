@@ -1,4 +1,4 @@
-//Just wanted a clean 3-tuple in c++ that follows the same pattern as pair structure.
+//This one is just for fun xD
 
 template <typename T1, typename T2, typename T3>
 struct triple {
