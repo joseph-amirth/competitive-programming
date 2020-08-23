@@ -1,1 +1,1 @@
-c++ competitive programming library. OOPS style code, inspired by tourist
+C++ competitive programming library (incomplete). OOPS style code, inspired by tourist
