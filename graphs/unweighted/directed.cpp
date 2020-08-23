@@ -6,11 +6,11 @@ public:
     };
 
     int n, m;
-    vector<edge> edges;
+    vector<edge> e;
     vector<vector<int>> adj;
 
-    DiGraph(): n(), m(), adj(), edges() {}
-    DiGraph(int n): n(n), m(), adj(n), edges() {}
+    DiGraph(): n(), m(), adj(), e() {}
+    DiGraph(int n): n(n), m(), adj(n), e() {}
 
     vector<int>& operator[](const int &x) {
         return adj[x];
@@ -18,7 +18,7 @@ public:
 
     void addEdge(int u, int v) {
         adj[u].push_back(v);
-        edges.emplace_back(u, v);
+        e.emplace_back(u, v);
         m++;
     }
 
