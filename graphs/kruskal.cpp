@@ -27,17 +27,18 @@ public:
         return true;
     }
 
-    using edge = Graph::edge;
+    vector<int> MST() {
+        vector<int> temp(g.m);
+        iota(temp.begin(), temp.end(), 0);
 
-    vector<edge> MST() {
-        sort(g.e.begin(), g.e.end(), [&] (const edge& a, const edge& b) {
-            return a.w < b.w;
+        sort(temp.begin(), temp.end(), [&] (const int& i, const int& j) {
+            return g.e[i].w < g.e[j].w;
         });
-        vector<edge> mst;
-        for (auto &[u, v, w] : g.e) {
-            if (merge(u, v)) {
-                mst.emplace_back(u, v, w);
-            }
+
+        vector<int> mst;
+        for (int i : temp) {
+            if (merge(g.e[i].u, g.e[i].v))
+                mst.push_back(i);
         }
         return mst;
     }
