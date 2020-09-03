@@ -18,7 +18,6 @@ public:
     SegmentTree(): root(), n(), curVer(), e(), f() {}
 
     void changeVer(int k) {
-        assert(k >= 1 and k <= root.size());
         curVer = root[k - 1];
     }
 
