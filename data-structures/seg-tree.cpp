@@ -20,7 +20,6 @@ public:
             t[i] = T(arr[l]);
             return;
         }
-
         int mid = (l + r) >> 1;
         build(arr, i << 1, l, mid);
         build(arr, i << 1 | 1, mid + 1, r);
@@ -29,12 +28,12 @@ public:
     }
 
     template <typename U>
-    void update(const int& idx, const U& val) {
+    void update(int idx, U val) {
         updateHelper(idx, val, 1, 0, n - 1);
     }
 
     template <typename U>
-    void updateHelper(const int& idx, const U& val, int i, int l, int r) {
+    void updateHelper(int idx, U val, int i, int l, int r) {
         if (l == r) {
             t[i] = T(val);
             return;
