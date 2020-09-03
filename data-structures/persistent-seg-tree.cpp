@@ -7,12 +7,12 @@ public:
         T val;
         Node *l, *r;
         explicit Node(T val) : val(val), l(nullptr), r(nullptr) {}
-        Node(T val, Node* l, Node* r): val(val), l(l), r(r) {}
+        Node(T val, Node *l, Node *r): val(val), l(l), r(r) {}
     };
 
     int n;
     vector<Node*> root;
-    Node* curVer;
+    Node *curVer;
     T e;
     F f;
     SegmentTree(): root(), n(), curVer(), e(), f() {}
@@ -30,11 +30,8 @@ public:
 
     template <typename U>
     Node* build(const U& arr, int l, int r) {
-        if (l == r) {
-            Node* temp = new Node(T(arr[l]));
-            return temp;
-        }
-
+        if (l == r)
+            return new Node(T(arr[l]));
         int mid = (l + r) >> 1;
         Node* temp1 = build(arr, l, mid);
         Node* temp2 = build(arr, mid + 1, r);
@@ -51,7 +48,6 @@ public:
     Node* updateHelper(int idx, U val, Node *v, int l, int r) {
         if (l == r)
             return new Node(T(val));
-
         int mid = (l + r) >> 1;
         if (idx <= mid) {
             Node *temp = updateHelper(idx, val, v->l, l, mid);
@@ -71,7 +67,6 @@ public:
             return e;
         if (ql <= l and r <= qr)
             return v->val;
-
         int mid = (l + r) >> 1;
         return f(queryHelper(ql, qr, v->l, l, mid), queryHelper(ql, qr, v->r, mid + 1, r));
     }
