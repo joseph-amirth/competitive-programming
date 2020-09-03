@@ -1,6 +1,5 @@
 struct Node {
     Node* arr[2];
-    Node() : arr() {}
 };
 
 template <int L> class Trie {
@@ -27,5 +26,18 @@ public:
             curNode = curNode->arr[f];
         }
         return (curNode != nullptr);
+    }
+
+    ~Trie() {
+        if (root != nullptr) {
+            function<void(Node*)> dfs = [&] (Node *x) {
+                for (int i = 0; i < 2; i++) {
+                    if (x->arr[i])
+                        dfs(x->arr[i]);
+                }
+                delete x;
+            };
+            dfs(root);
+        }
     }
 };
