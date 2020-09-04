@@ -24,9 +24,8 @@ public:
 
     DiGraph transpose() const {
         DiGraph rev(n);
-        for (int i = 0; i < n; i++) {
-            for (auto &[v, w]: adj[i])
-                rev.addEdge(v, i, w);
+        for (auto &[u, v, w] : edges) {
+            rev.addEdge(v, u, w);
         }
         return rev;
     }
