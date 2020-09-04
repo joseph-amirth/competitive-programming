@@ -2,7 +2,8 @@ struct Node {
     Node* arr[2];
 };
 
-template <int L> class Trie {
+template <int L>
+class Trie {
 public:
     Node *root;
     Trie(): root(new Node()) {}
@@ -29,15 +30,13 @@ public:
     }
 
     ~Trie() {
-        if (root != nullptr) {
-            function<void(Node*)> dfs = [&] (Node *x) {
-                for (int i = 0; i < 2; i++) {
-                    if (x->arr[i])
-                        dfs(x->arr[i]);
-                }
-                delete x;
-            };
-            dfs(root);
-        }
+        function<void(Node*)> dfs = [&] (Node *x) {
+            for (int i = 0; i < 2; i++) {
+                if (x->arr[i])
+                    dfs(x->arr[i]);
+            }
+            delete x;
+        };
+        dfs(root);
     }
 };
