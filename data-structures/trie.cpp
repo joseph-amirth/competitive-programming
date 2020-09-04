@@ -29,15 +29,13 @@ public:
     }
 
     ~Trie() {
-        if (root != nullptr) {
-            function<void(Node*)> dfs = [&] (Node *x) {
-                for (int i = 0; i < 26; i++) {
-                    if (x->arr[i])
-                        dfs(x->arr[i]);
-                }
-                delete x;
-            };
-            dfs(root);
-        }
+        function<void(Node*)> dfs = [&] (Node *x) {
+            for (int i = 0; i < 26; i++) {
+                if (x->arr[i])
+                    dfs(x->arr[i]);
+            }
+            delete x;
+        };
+        dfs(root);
     }
 };
