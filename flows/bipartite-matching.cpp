@@ -22,7 +22,7 @@ public:
                     return true;
                 }
             }
-        } //graph not bipartite
+        }
         return false;
     }
     int size() {
@@ -30,9 +30,9 @@ public:
             if (c[i] == -1)
                 dfs(i, 0);
         }
-        for (auto &[u, v] : g.e) {
+        for (auto &[u, v] : g.edges) {
             if (c[u] == c[v])
-                return -1; //graph not bipartite
+                return -1;
         }
         int matching = 0;
         for (int x = 0; x < g.n; x++) {
