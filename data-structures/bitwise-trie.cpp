@@ -1,10 +1,10 @@
-struct Node {
-    Node* arr[2];
-};
-
 template <int L>
 class Trie {
 public:
+    struct Node {
+        Node* arr[2];
+    };
+    
     Node *root;
     Trie(): root(new Node()) {}
 
