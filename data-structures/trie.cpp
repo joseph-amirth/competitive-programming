@@ -1,10 +1,10 @@
-struct Node {
-    Node* arr[26];
-    bool isEnd;
-};
-
 class Trie {
 public:
+    struct Node {
+        Node* arr[26];
+        bool isEnd;
+    };
+
     Node *root;
     Trie(): root(new Node()) {}
 
